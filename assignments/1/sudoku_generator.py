@@ -28,9 +28,13 @@ def can_remove(rows,k,x,y,s):
     return True
 
 def remove(rows,k,s):
-    for i in range(0,2*k*k):
+    x=list(range(0,2*k*k))
+    y=list(range(0,k*k))
+    random.shuffle(x)
+    random.shuffle(y)
+    for i in x:
         # print(rows)
-        for j in range(0,k*k):
+        for j in y:
             # temp=rows[:][:]
             if can_remove(rows,k,i,j,s):
                 rows[i][j]=0
@@ -44,8 +48,5 @@ def gen(k):
     while not solve(rows,k):
         ran_fill(rows,k)
     rows=solve(rows,k)
-    print("Solution:")
-    for i in rows:
-        print(i)
     remove(rows,k,s)
     return rows

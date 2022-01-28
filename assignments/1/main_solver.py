@@ -1,5 +1,6 @@
 import math
 import csv
+from print_sudoku import *
 
 from sqlalchemy import true
 from sudoku_solver import solve
@@ -13,16 +14,8 @@ with open(input_file,'r') as csvfile:
             row_int.append(int(element))
         rows.append(row_int)
 k=int(math.sqrt(len(rows)/2))
-# print(k)
-# rows1=[]
-# rows2=[]
-# for i in range(0,k*k):
-#     rows1.append(rows[i])
-# for i in range(k*k,2*k*k):
-#     rows2.append(rows[i])
+print("INPUT:")
+print_main(rows,k)
 result=solve(rows,k)
-if result:
-    for i in result:
-        print(i)
-else:
-    print(None)
+print("\nOUTPUT:")
+print_main(result,k)

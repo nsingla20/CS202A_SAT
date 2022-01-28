@@ -3,10 +3,10 @@
 # print(cnf.clauses)
 from sudoku_solver import solve
 k=3
-ans=[[0 for i in range(k*k)] for j in range(k*k)]
-result=solve(ans,ans,k)
-if result:
-    for i in result:
-        print(i)
-else:
-    print(None)
+ans=[[0 for i in range(k*k)] for j in range(2*k*k)]
+result=solve(ans,k)
+# if result:
+#     for i in result:
+#         print(i)
+# else:
+#     print(None)
