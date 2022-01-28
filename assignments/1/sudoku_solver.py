@@ -14,16 +14,18 @@ def get_ans(model,k):
         n=int(i/fac)-1
         ans[x+k*k*n][y]=value
     return ans
-def assume_gen(rows,k):
+def assume_gen_calc(value,k,i,j):
     fac=10**(int(math.log10(k*k)+1))
+    if i<k*k:
+        return (fac**3+i*fac*fac+j*fac+value)
+    else:
+        return (2*(fac**3)+(i-k*k)*fac*fac+j*fac+value)
+def assume_gen(rows,k):
     assume=[]
     for i in range(0,2*k*k):
         for j in range(0,k*k):
             if(rows[i][j]!=0):
-                if i<k*k:
-                    assume.append(fac**3+i*fac*fac+j*fac+rows[i][j])
-                else:
-                    assume.append(2*(fac**3)+(i-k*k)*fac*fac+j*fac+rows[i][j])
+                assume.append(assume_gen_calc(rows[i][j],k,i,j))
     
     return assume
 

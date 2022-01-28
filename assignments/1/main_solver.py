@@ -4,7 +4,7 @@ from print_sudoku import *
 
 from sqlalchemy import true
 from sudoku_solver import solve
-input_file="my.csv"
+input_file=input("Input the path to csv file : ")
 rows=[]
 with open(input_file,'r') as csvfile:
     csvreader=csv.reader(csvfile)
@@ -18,4 +18,7 @@ print("INPUT:")
 print_main(rows,k)
 result=solve(rows,k)
 print("\nOUTPUT:")
-print_main(result,k)
+if result :
+    print_main(result,k)
+else:
+    print("None")
