@@ -1,8 +1,8 @@
-Input Data: https://github.com/luizesramos/sudoku
-Sudoku gen algo: https://stackoverflow.com/questions/6924216/how-to-generate-sudoku-boards-with-unique-solutions
-excecution time of generator:
-    k=2 : 0.01s
-    k=3 : 0.2s
-    k=4 : 20s 
-    k=5 : 150s
-    k=6 : 1580s
+Solver :
+    For solver run command "python main_solver.py". It will ask for input csv file. Provide name of csv in terminal.
+    Like "abc.csv" (include extension)
+    NOTE : csv file should be in test_cases folder
+
+Generator :
+    For generator run command "python main_generator.py". It will ask for input parameter k(k>1). Provide one number in terminal.
+    Then it will generate a parially filled maximal sudoku and its answer.

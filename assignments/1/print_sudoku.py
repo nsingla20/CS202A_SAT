@@ -1,4 +1,5 @@
 import math
+
 def print_main(rows,k):
     num=int(math.log10(k*k))+1
     rows1=[]
@@ -26,7 +27,7 @@ def print_both(rows1,rows2,k):
         if i!=0 and i%k==0:
             for x in range(0,k*k*(num+1)+2*k-1):
                 print("-",end="")
-            print(" ",end="")
+            print("  ",end="")
             for x in range(0,k*k*(num+1)+2*k-1):
                 print("-",end="")
             print("")
