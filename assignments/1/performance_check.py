@@ -1,3 +1,4 @@
+# python file to print time taken for various values of k
 from sudoku_generator import gen
 from sudoku_solver import solve
 import time

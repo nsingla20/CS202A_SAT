@@ -1,5 +1,6 @@
 import math
 
+# main function that receives request to print (2*k*k X k*k) sudoku
 def print_main(rows,k):
     num=int(math.log10(k*k))+1
     rows1=[]
@@ -21,6 +22,7 @@ def print_main(rows,k):
         print("S2:")
         print_both(rows1,rows2,k)
 
+# prints two sudokus single line
 def print_both(rows1,rows2,k):
     num=int(math.log10(k*k))+1
     for i in range(0,k*k):
@@ -45,6 +47,7 @@ def print_both(rows1,rows2,k):
 
         print("")
 
+# print one sudoku
 def print_one(rows,k):
     num=int(math.log10(k*k))+1
     for i in range(0,k*k):
@@ -59,6 +62,7 @@ def print_one(rows,k):
                 print(" "+ele(rows[i][j],num),end="")
         print("")
 
+# return string after adding appropriate spaces in integer
 def ele(x,num):
     s=str(x)
     c1= num-1 if x==0 else num-int(math.log10(x))-1

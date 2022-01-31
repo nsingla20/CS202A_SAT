@@ -63,6 +63,7 @@ def formula_gen(k):
                 cnf.extend(CardEnc.equals(lits=l1,bound=1,encoding=0))
                 cnf.extend(CardEnc.equals(lits=l2,bound=1,encoding=0))
 
+    # each column must have exactly one occurance of each number from 1 to k*k
     for i in range(0,k*k):
         for z in range(1,k*k+1):
             l1=[]
@@ -73,6 +74,7 @@ def formula_gen(k):
             cnf.extend(CardEnc.equals(lits=l1,bound=1,encoding=0))
             cnf.extend(CardEnc.equals(lits=l2,bound=1,encoding=0))
     
+    # each row must have exactly one occurance of each number from 1 to k*k
     for j in range(0,k*k):
         for z in range(1,k*k+1):
             l1=[]
@@ -83,6 +85,7 @@ def formula_gen(k):
             cnf.extend(CardEnc.equals(lits=l1,bound=1,encoding=0))
             cnf.extend(CardEnc.equals(lits=l2,bound=1,encoding=0))
 
+    # Corresponding cells in S1, S2 must not be equal. Atmost one is possible.
     for i in range(0,k*k):
         for j in range(0,k*k):
             for z in range(1,k*k+1):
