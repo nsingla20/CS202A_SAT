@@ -35,7 +35,7 @@ print("\nOUTPUT:")
 #Checking input
 for row in rows:
     for ele in row:
-        if ele>=k*k:
+        if ele>k*k:
             print("Wrong Input")
             exit()
 
