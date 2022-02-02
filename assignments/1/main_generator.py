@@ -16,6 +16,12 @@ while k<2 :
     except :
         print("Put correct value please")
         k=-1
+use_dia=0
+try:
+    use_dia=int(input("Do you want to use Diagonal constraint(Specify 1/0) : "))
+except:
+    print("Invalid value setting to 0")
+
 if(k>4):
     print("NOTE: Larger k values take time to execute. Please be patient.")
 else :
@@ -23,7 +29,7 @@ else :
 
 # Solve the question generated and print it
 start_time=time.time()
-question=gen(k)
+question=gen(k,True if use_dia==1 else False)
 end_time=time.time()
 print("Here is your generated sudoku pair:")
 print_main(question,k)
@@ -33,7 +39,7 @@ with open("test_cases/"+str(k)+"_"+file_name+"_q.csv","w",newline="") as csvfile
     csv.writer(csvfile).writerows(question)
 
 # Solve the question generated and print it
-solution=solve(question,k)
+solution=solve(question,k,True if use_dia==1 else False)
 print("\nHere is its unique answer:")
 print_main(solution,k)
 

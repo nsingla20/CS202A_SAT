@@ -34,7 +34,7 @@ def assume_gen(rows,k):
 
 # formula generator for solving sudoku
 # uses a variable x({1,2})(row no.)(col no.)(value)
-def formula_gen(k):
+def formula_gen(k,use_dia):
     cnf=CNF()
     fac=10**(int(math.log10(k*k)+1))        # factor by which row no., col no., value will be separated
     
@@ -56,8 +56,8 @@ def formula_gen(k):
             for n in range(1,k*k+1):                                    # selects a number from 1 to k*k
                 l1=[]
                 l2=[]
-                for i in range(ni*k,ni*k+k):                            #selects row of cell in that sub-block
-                    for j in range(nj*k,nj*k+k):                        #selects column of cell in that sub-block
+                for i in range(ni*k,ni*k+k):                            # selects row of cell in that sub-block
+                    for j in range(nj*k,nj*k+k):                        # selects column of cell in that sub-block
                         l1.append(fac**3+i*fac*fac+j*fac+n)
                         l2.append(2*fac**3+i*fac*fac+j*fac+n)
                 cnf.extend(CardEnc.equals(lits=l1,bound=1,encoding=0))
@@ -89,12 +89,35 @@ def formula_gen(k):
     for i in range(0,k*k):
         for j in range(0,k*k):
             for z in range(1,k*k+1):
-                cnf.extend(CardEnc.atmost([fac**3+i*fac*fac+j*fac+z,2*fac**3+i*fac*fac+j*fac+z],encoding=0))
+                cnf.extend(CardEnc.atmost([ fac**3+i*fac*fac+j*fac+z , 2*fac**3+i*fac*fac+j*fac+z ],encoding=0))
+    
+    # Want to use diagonal consraint or not
+    if use_dia :
+        # Diagonal elements should have all numbers from 1 to k*k
+        for n in range(k*k+1):
+            l1=[]
+            l2=[]
+            for i in range(k*k):
+                l1.append(fac**3+i*fac*fac+i*fac+n)
+                l2.append(2*fac**3+i*fac*fac+i*fac+n)
+            cnf.extend(CardEnc.equals(lits=l1,bound=1,encoding=0))
+            cnf.extend(CardEnc.equals(lits=l2,bound=1,encoding=0))
+        
+        # Anti-Diagonal elements should have all numbers from 1 to k*k
+        for n in range(k*k+1):
+            l1=[]
+            l2=[]
+            for i in range(k*k):
+                l1.append(fac**3+i*fac*fac+(k*k-i-1)*fac+n)
+                l2.append(2*fac**3+i*fac*fac+(k*k-i-1)*fac+n)
+            cnf.extend(CardEnc.equals(lits=l1,bound=1,encoding=0))
+            cnf.extend(CardEnc.equals(lits=l2,bound=1,encoding=0))
+    
     return cnf
 
 #main function that receives request to solve sudoku(rows) with k=k
-def solve(rows,k):
-    cnf=formula_gen(k)                              #generates formula for solving sudoku
+def solve(rows,k,use_dia):
+    cnf=formula_gen(k,use_dia)                              #generates formula for solving sudoku
     
     s=Solver(name='m22')
     s.append_formula(cnf.clauses)

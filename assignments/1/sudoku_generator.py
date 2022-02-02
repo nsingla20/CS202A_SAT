@@ -51,11 +51,11 @@ def remove(rows,k):
                 rows[i][j]=0
 
 # main function of this script which fills a empty grid for valid sudoku, then start removing elements
-def gen(k):
+def gen(k,use_dia):
     global s
     # assign a solver
     s=Solver(name="m22")
-    s.append_formula(formula_gen(k).clauses)
+    s.append_formula(formula_gen(k,use_dia).clauses)
     # make a empty sudoku
     rows=[[0 for i in range(k*k)] for j in range(2*k*k)]
     
@@ -65,6 +65,6 @@ def gen(k):
         ran_fill(rows,k)
         assume=assume_gen(rows,k)
     # print("random done")
-    solve(rows,k)
+    solve(rows,k,use_dia)
     remove(rows,k)
     return rows
