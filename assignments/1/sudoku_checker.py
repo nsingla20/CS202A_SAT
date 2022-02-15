@@ -44,24 +44,13 @@ def ValidPair(row1,row2,k):
     #respective cell check
     for i in range(k*k):
         for j in range(k*k):
-            if rows[i][j]==0:
+            if row1[i][j]==0 and row2[i][j]==0:
                 continue
             if row1[i][j]==row2[i][j]:
                 return False
     
     return isValidSudoku(row1,k) and isValidSudoku(row2,k)
-
-l=glob.glob("test_cases/*.csv")
-for file in l:
-    rows=[]
-    with open(file,'r') as csvfile:
-        csvreader=csv.reader(csvfile)
-        for row in csvreader:
-            row_int=[]
-            for element in row:
-                row_int.append(int(element))
-            rows.append(row_int)
-    k=int(math.sqrt(len(rows)/2))
+def isValid(rows,k):
     row1=[]
     row2=[]
     for i in range(0,2*k*k):
@@ -69,7 +58,27 @@ for file in l:
             row1.append(rows[i])
         else:
             row2.append(rows[i])
-    if not ValidPair(row1,row2,k):
-        print("Invalid file :"+file)
-print("All files check complete!")
+    return ValidPair(row1,row2,k)
+if __name__=="__main__":
+    l=glob.glob("test_cases/*.csv")
+    for file in l:
+        rows=[]
+        with open(file,'r') as csvfile:
+            csvreader=csv.reader(csvfile)
+            for row in csvreader:
+                row_int=[]
+                for element in row:
+                    row_int.append(int(element))
+                rows.append(row_int)
+        k=int(math.sqrt(len(rows)/2))
+        row1=[]
+        row2=[]
+        for i in range(0,2*k*k):
+            if i<k*k:
+                row1.append(rows[i])
+            else:
+                row2.append(rows[i])
+        if not ValidPair(row1,row2,k):
+            print("Invalid file :"+file)
+    print("All files check complete!")
     
