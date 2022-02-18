@@ -154,7 +154,7 @@ int decide(int n,vector<int> mark){
     return -1;
 }
 
-pair<bool,vector<int>> solve(int n, vector<vector<int>> v, vector<int> mark, vector<int> &guess, vector<int> (&m)[]){
+pair<bool,vector<int>> solve(int n, vector<vector<int>> v, vector<int> mark){
     // vector<vector<int>> v_o=v;
     vector<int> singles=single(n,v,mark);
     while(singles.size()!=0){
@@ -185,14 +185,14 @@ pair<bool,vector<int>> solve(int n, vector<vector<int>> v, vector<int> mark, vec
     int x=decide(n,mark);
     // guess.push_back(x);
     mark[x]=1;
-    pair<bool,vector<int>> p=solve(n,v,mark,guess,m);
+    pair<bool,vector<int>> p=solve(n,v,mark);
     if(p.first){
         // mark=p.second;
         return {true,p.second};
     }
     // guess.back()=-x;
     mark[x]=0;
-    p=solve(n,v,mark,guess,m);
+    p=solve(n,v,mark);
     if(p.first){
         return {true,p.second};
     }
@@ -228,7 +228,7 @@ int main(){
     
     time_t start,end;
     time(&start);
-    pair<bool,vector<int>> b=solve(p.first,*(new vector<vector<int>>(p.second)),mark,*(new vector<int>()),m);
+    pair<bool,vector<int>> b=solve(p.first,p.second,mark);
     mark=b.second;
     time(&end);
     if(correct(p.second,mark)){
