@@ -7,7 +7,7 @@ void print_clau(const vector<int> &v){
     }
     cout<<endl;
 }
-void print_model(vector<int> mark){
+void print_model(vector<int> &mark){
     for(int i=1;i<mark.size();++i){
         if(mark[i]==0){
             cout<<-i<<" ";
@@ -19,15 +19,38 @@ void print_model(vector<int> mark){
     }
     cout<<endl;
 }
-vector<int> single(int n,vector<vector<int>> &v,const vector<int> mark){
+// vector<int> pure(int n,vector<vector<int>> &v,const vector<int> &mark){
+//     int num[n+1];
+//     for(int i=0;i<n+1;++i){
+//         num[i]=-1;
+//     }
+//     for(auto &l:v){
+//         for(auto i:l){
+//             if(num[abs(i)]==-1){
+//                 num[abs(i)]=!signbit(i);
+//             }else if(num[abs(i)]==signbit(i)){
+//                 num[abs(i)]=-2;
+//             }
+//         }
+//     }
+//     vector<int> ans;
+//     for(int i=1;i<n+1;++i){
+//         if(num[i]>=0){
+//             ans.push_back(num[i]==0?-i:i);
+//         }
+//     }
+//     return ans;
+// }
+vector<int> single(int n,vector<vector<int>> &v,const vector<int> &mark){
     vector<int> ans;
     // vector<vector<int>> removed;
-    int num[n+1];
-    for(int i=1;i<n+1;++i){
-        num[i]=-1;
-    }
+    
     auto l=v.begin();
     while(l!=v.end()){
+        if((*l).size()==0){
+            l=v.erase(l);
+            continue;
+        }
         int count=0,x;
         auto i=(*l).begin();
         while(i!=(*l).end()){
@@ -43,20 +66,21 @@ vector<int> single(int n,vector<vector<int>> &v,const vector<int> mark){
                 count=0;
                 break;
             }else{
-                i=(*l).erase(i);
+                // i=(*l).erase(i);
+                i++;
             }
         }
-        if(count>1){
-            for(auto i:*l){
-                if(mark[abs(i)]==-1){
-                    if(num[abs(i)]==-1){
-                        num[abs(i)]=!signbit(i);
-                    }else if(num[abs(i)]==signbit(i)){
-                        num[abs(i)]=-2;
-                    }
-                }
-            }
-        }
+        // if(count>1){
+        //     for(auto i1:*l){
+        //         if(mark[abs(i1)]==-1){
+        //             if(num[abs(i1)]==-1){
+        //                 num[abs(i1)]=!signbit(i1);
+        //             }else if(num[abs(i1)]==signbit(i1)){
+        //                 num[abs(i1)]=-2;
+        //             }
+        //         }
+        //     }
+        // }
         if(count==1){
             // removed.push_back(*l);
             // cout<<"Removed : ";
@@ -67,26 +91,27 @@ vector<int> single(int n,vector<vector<int>> &v,const vector<int> mark){
             l++;
         }
     }
-    for(int i=1;i<n+1;++i){
-        if(num[i]>=0){
-            ans.push_back(num[i]==0?-i:i);
-        }
-    }
+    // for(int i=1;i<n+1;++i){
+    //     if(num[i]>=0){
+    //         ans.push_back(num[i]==0?-i:i);
+    //     }
+    // }
     // sort(ans.begin(),ans.end());
     // ans.resize(distance(ans.begin(), unique(ans.begin(), ans.end())));
     return ans;
 }
-bool check(vector<vector<int>> &v, vector<int> mark){
+bool check(vector<vector<int>> &v, vector<int> &mark){
     for(auto &l:v){
-        // if(l.size()==0){
-        //     continue;
-        // }
+        if(l.size()==0){
+            continue;
+        }
         bool b=false;
         for(auto &i:l){
             if(mark[abs(i)]==-1){
                 b=true;
                 break;
             }else{
+                
                 b=(mark[abs(i)]!=signbit(i));
                 if(b){
                     break;
@@ -100,14 +125,14 @@ bool check(vector<vector<int>> &v, vector<int> mark){
     return true;
 }
 
-bool correct(vector<vector<int>> &v, vector<int> mark){
+bool correct(vector<vector<int>> &v, vector<int> &mark){
     for(auto &l:v){
-        // if(l.size()==0){
-        //     continue;
-        // }
+        if(l.size()==0){
+            continue;
+        }
         bool b=false;
         for(auto i:l){
-            b=(mark[abs(i)]==!signbit(i));
+            b=(mark[abs(i)]!=-1)&&(mark[abs(i)]!=signbit(i));
             if(b){
                 break;
             }
@@ -117,41 +142,61 @@ bool correct(vector<vector<int>> &v, vector<int> mark){
             // print_clau(l);
             // cout<<"Current state : ";
             // print_model(mark);
+            // cout<<v.size()<<endl;
             return false;
         }
     }
     return true;
 }
 
-void learn(vector<vector<int>> &v, vector<int> &guess){
-    vector<int> temp;
-    for(auto i:guess){
-        temp.push_back(-i);
-    }
-    v.push_back(temp);
-}
+// void learn(vector<vector<int>> &v, vector<int> &guess){
+//     vector<int> temp;
+//     for(auto i:guess){
+//         temp.push_back(-i);
+//     }
+//     v.push_back(temp);
+// }
 
-void unset(int x, vector<int> mark, vector<int> (&m)[]){
-    for(auto i:m[x]){
-        mark[i]=-1;
-    }
-    m[abs(x)].clear();
-}
-void add_clau(vector<vector<int>> &v,vector<vector<int>> &toadd){
-    for(auto &i:toadd){
-        v.push_back(i);
-        cout<<"Added : ";
-        print_clau(i);
-    }
-}
+// void unset(int x, vector<int> mark, vector<int> (&m)[]){
+//     for(auto i:m[x]){
+//         mark[i]=-1;
+//     }
+//     m[abs(x)].clear();
+// }
+// void add_clau(vector<vector<int>> &v,vector<vector<int>> &toadd){
+//     for(auto &i:toadd){
+//         v.push_back(i);
+//         cout<<"Added : ";
+//         print_clau(i);
+//     }
+// }
 
-int decide(int n,vector<int> mark){
-    for(int i=1;i<n+1;++i){
-        if(mark[i]==-1){
-            return i;
+int decide(int n,vector<vector<int>> &v,vector<int> &mark){
+    int num[n+1];
+    for(int i=0;i<n+1;++i){
+        num[i]=0;
+    }
+    num[0]=-1;
+    for(auto &l:v){
+        for(auto i:l){
+            if(mark[abs(i)]==-1){
+                num[abs(i)]++;
+            }
         }
     }
-    return -1;
+    int x=0;
+    for(int i=1;i<n+1;++i){
+        if(mark[i]==-1&&num[x]<=num[i]){
+            x=i;
+        }
+    }
+    return x;
+    // for(int i=1;i<n+1;++i){
+    //     if(mark[i]==-1){
+    //         return i;
+    //     }
+    // }
+    // return -1;
 }
 
 pair<bool,vector<int>> solve(int n, vector<vector<int>> v, vector<int> mark){
@@ -182,7 +227,11 @@ pair<bool,vector<int>> solve(int n, vector<vector<int>> v, vector<int> mark){
         return {false,mark};
     }
     
-    int x=decide(n,mark);
+    int x=decide(n,v,mark);
+    // if(x==0){
+    //     cout<<'p';
+    //     return {false,mark};
+    // }
     // guess.push_back(x);
     mark[x]=1;
     pair<bool,vector<int>> p=solve(n,v,mark);
@@ -192,11 +241,11 @@ pair<bool,vector<int>> solve(int n, vector<vector<int>> v, vector<int> mark){
     }
     // guess.back()=-x;
     mark[x]=0;
-    p=solve(n,v,mark);
-    if(p.first){
-        return {true,p.second};
-    }
-    mark[x]=-1;
+    return solve(n,v,mark);
+    // if(p.first){
+    //     return {true,p.second};
+    // }
+    // mark[x]=-1;
     // guess.pop_back();
 
     // learn(v,guess);
@@ -204,7 +253,7 @@ pair<bool,vector<int>> solve(int n, vector<vector<int>> v, vector<int> mark){
     //     unset(abs(guess.back()),mark,m);
     // }
     // add_clau(v,singles.second);
-    return {false,mark};
+    // return {false,mark};
 
 }
 
@@ -236,6 +285,7 @@ int main(){
         print_model(mark);
     }else{
         cout<<"Given clauses are UNSAT"<<endl;
+        // print_model(mark);
     }
     
     cout<<"\nTime Taken : "<<(end-start)<<"s";
